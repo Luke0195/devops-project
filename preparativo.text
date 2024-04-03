@@ -1,0 +1,17 @@
+dev:
+ preparativo:
+  - npm install
+  - npx prisma generate
+
+  execução:
+   npm run dev
+
+prod: 
+ preparativo: 
+  - npm install
+  - npx prisma generate
+  - npm run build
+  - npm run prune --prod
+  
+ execução:
+  - npm start
