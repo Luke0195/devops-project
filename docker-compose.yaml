@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  app:
+    container_name: passin
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3333:3333
+    environment:
+      DATABASE_URL: jdbc:postgresql://pgDb:5432/lojavirtual
+      API_BASE_URL: http://localhost:3333
+      PORT: 3333
+    depends_on:
+      - pgDb
+    networks:
+      - passin_network
+
+  pgDb:
+    container_name: passindb
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: passin
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5332
+    volumes:
+      - pgData:/var/local/postgres
+    networks:
+      - passin_network
+
+volumes:
+  pgData:
+networks:
+  passin_network:
+    driver: bridge
